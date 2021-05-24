@@ -2,19 +2,29 @@
 <button class="btn btn-outline btn-sm" (click)="addProduct()">Add Product</button>
 
 <!-- Modal Add or Eddit -->
-<app-add-or-edit-product-modal *ngIf="productModalOpen"></app-add-or-edit-product-modal>
+<app-add-or-edit-product-modal
+*ngIf="productModalOpen"
+[product]="selectedProduct"
+(finish)="handleFinish($event)"
+></app-add-or-edit-product-modal>
 <!-- End Modal Add or Eddit -->
 
 <!-- Modal Delete -->
-
+<app-delete-product-modal
+  *ngIf="delete"
+  [product]="productToBeDelete"
+  (cancel) = "handleCancelDelete()"
+  (confirm) = "handleConfirmDelete()"
+></app-delete-product-modal>
 <!-- End Modal Delete -->
 
 <clr-datagrid>
-  <clr-dg-column>ID</clr-dg-column>
-  <clr-dg-column>Name</clr-dg-column>
-  <clr-dg-column>Description</clr-dg-column>
+  <clr-dg-column [style.width.px]="50">ID</clr-dg-column>
+  <clr-dg-column [style.width.px]="100">Name</clr-dg-column>
+  <clr-dg-column [style.width.px]="500">Description</clr-dg-column>
   <clr-dg-column>Price</clr-dg-column>
   <clr-dg-column>Stock</clr-dg-column>
+  <clr-dg-column [style.width.px]="50">Image</clr-dg-column>
 
   <clr-dg-row *clrDgItems="let product of products">
 
@@ -30,6 +40,7 @@
     <clr-dg-cell>{{product.description}}</clr-dg-cell>
     <clr-dg-cell>£{{product.price}}</clr-dg-cell>
     <clr-dg-cell>{{product.stock}} In stock</clr-dg-cell>
+    <clr-dg-cell> <img width="50" [src]="baseUrlImage+product.image" [alt]="product.name" /></clr-dg-cell>
   </clr-dg-row>
 
 
